@@ -1,0 +1,126 @@
+{
+  "name": "image-view-plus",
+  "productName": "ImageView+",
+  "version": "1.2.0",
+  "description": "ImageView+",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "test-samples": "node scripts/generate-samples.js",
+    "prepare-installer": "node scripts/prepare-installer-assets.js",
+    "register-assoc": "powershell -ExecutionPolicy Bypass -File scripts/register-file-associations.ps1",
+    "pack": "electron-builder --dir",
+    "setup": "node scripts/generate-samples.js && node scripts/prepare-installer-assets.js && electron-builder --win nsis",
+    "dist": "electron-builder --win nsis portable"
+  },
+  "keywords": [
+    "image-viewer",
+    "dng",
+    "webp",
+    "raw",
+    "tga",
+    "tiff",
+    "win32",
+    "cross-platform",
+    "markadestek"
+  ],
+  "author": "Hakan GERMAN (www.markadestek.com)",
+  "license": "MIT",
+  "dependencies": {
+    "exifr": "^7.1.3",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.markadestek.imageviewplus",
+    "productName": "ImageView+",
+    "copyright": "Copyright © 2026 Hakan GERMAN - www.markadestek.com",
+    "compression": "maximum",
+    "afterPack": "scripts/after-pack.js",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "assets/icon.ico",
+      "assets/icon.png",
+      "assets/logo.png",
+      "logo.png",
+      "package.json",
+      "!**/*.map",
+      "!**/*.d.ts",
+      "!**/*.md"
+    ],
+    "asar": false,
+    "extraResources": [
+      {
+        "from": "samples",
+        "to": "samples"
+      }
+    ],
+    "fileAssociations": [
+      { "ext": "dng", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "webp", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "jpg", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "jpeg", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "jpe", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "jfif", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "png", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "apng", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "gif", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "bmp", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "dib", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "tga", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "avif", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "tiff", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "tif", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "svg", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "ico", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "psd", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "heic", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "heif", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "ppm", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "pgm", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "pnm", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "pcx", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "hdr", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "jp2", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "jxl", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "cr2", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "cr3", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "nef", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "arw", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "orf", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "rw2", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "pef", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "raf", "name": "ImageView+", "role": "Viewer" },
+      { "ext": "srw", "name": "ImageView+", "role": "Viewer" }
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "ImageView+",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico",
+      "installerSidebar": "assets/installerSidebar.bmp",
+      "uninstallerSidebar": "assets/installerSidebar.bmp",
+      "installerHeader": "assets/installerHeader.bmp",
+      "include": "build/installer.nsh",
+      "artifactName": "ImageView+_Setup_${version}.${ext}",
+      "runAfterFinish": true
+    }
+  }
+}

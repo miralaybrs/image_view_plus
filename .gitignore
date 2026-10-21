@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Build & Release outputs
+dist/
+*.exe
+*.blockmap
+*.lnk
+
+# OS & Logs
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
