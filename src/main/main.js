@@ -403,6 +403,50 @@ function createMainWindow() {
     mainWindow.setAlwaysOnTop(true);
     mainWindow.focus();
     mainWindow.setAlwaysOnTop(false);
+
+    if (process.env.STORE_SCREENSHOTS) {
+      setTimeout(async () => {
+        try {
+          const outDir = path.resolve(__dirname, '..', '..', 'store_assets', 'screenshots');
+          if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+
+          mainWindow.setSize(1920, 1080);
+          mainWindow.center();
+          await new Promise(r => setTimeout(r, 1200));
+
+          // 1. Main View (Sample DNG)
+          const img1 = await mainWindow.webContents.capturePage();
+          fs.writeFileSync(path.join(outDir, '01_Main_Viewer_DNG.png'), img1.toPNG());
+
+          // 2. Info modal (EXIF & Histogram)
+          await mainWindow.webContents.executeJavaScript(`document.getElementById('btn-info')?.click()`);
+          await new Promise(r => setTimeout(r, 800));
+          const img2 = await mainWindow.webContents.capturePage();
+          fs.writeFileSync(path.join(outDir, '02_EXIF_Metadata_Histogram.png'), img2.toPNG());
+
+          // 3. Close info, switch theme to liquid glass
+          await mainWindow.webContents.executeJavaScript(`
+            document.getElementById('info-modal')?.classList.add('hidden');
+            document.getElementById('btn-theme')?.click();
+          `);
+          await new Promise(r => setTimeout(r, 800));
+          const img3 = await mainWindow.webContents.capturePage();
+          fs.writeFileSync(path.join(outDir, '03_Liquid_Glass_Theme.png'), img3.toPNG());
+
+          // 4. Help / About modal
+          await mainWindow.webContents.executeJavaScript(`document.getElementById('btn-help')?.click()`);
+          await new Promise(r => setTimeout(r, 800));
+          const img4 = await mainWindow.webContents.capturePage();
+          fs.writeFileSync(path.join(outDir, '04_Help_And_About.png'), img4.toPNG());
+
+          console.log('Successfully captured 4 Microsoft Store screenshots (1920x1080)!');
+          app.quit();
+        } catch (e) {
+          console.error('Screenshot capture error:', e);
+          app.quit();
+        }
+      }, 2000);
+    }
   });
 
   const persistBounds = () => {
